@@ -8,7 +8,7 @@ export class AppService {
 
   constructor() {
     this.auth = new google.auth.GoogleAuth({
-      keyFile: 'service-acount.json',
+      keyFile: 'service-account.json',
       scopes: ['https://www.googleapis.com/auth/drive'],
     });
 
