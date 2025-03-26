@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem Video Private</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #videoContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Nhập Email để Xem Video</h2>
+    <input type="email" id="emailInput" placeholder="Nhập email của bạn" required>
+    <button onclick="checkEmail()">Xác nhận</button>
+
+    <div id="videoContainer">
+        <h3>Video của bạn</h3>
+        <iframe width="600" height="350" src="https://drive.google.com/file/d/1-KzPohMk6BcD1ch8zkc_ZsUhjgd3JlB0/preview" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        async function checkEmail() {
+            const email = document.getElementById("emailInput").value;
+            const videoContainer = document.getElementById("videoContainer");
+
+            if (email.trim() !== "" && email.includes("@")) {
+                try {
+                    // Gửi yêu cầu đến API
+                    const response = await fetch('/api/share', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        alert(result.message);
+                        videoContainer.style.display = "block";
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi gọi API:', error);
+                    alert('Đã xảy ra lỗi, vui lòng thử lại!');
+                }
+            } else {
+                alert("Vui lòng nhập email hợp lệ!");
+            }
+        }
+    </script>
+
+</body>
+</html>
